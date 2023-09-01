@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 
 class AppUtil {
   schoolPrimary() {
-    return const Color(0xFF0407CE);
+    return const Color(0xFF290F6D);
   }
 
   schoolSecondary() {
@@ -13,11 +13,11 @@ class AppUtil {
   }
 
   schoolName() {
-    return "Saint Anne Academy";
+    return "Saint James Academy";
   }
 
   schoolAddress() {
-    return "Piddig Ilocos Norte";
+    return "Pasuquin Ilocos Norte";
   }
 
   readBooks() async {
