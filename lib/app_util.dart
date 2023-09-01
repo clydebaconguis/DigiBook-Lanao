@@ -4,8 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AppUtil {
-  schoolColor() {
-    return Colors.grey[800];
+  schoolPrimary() {
+    return const Color(0xFF0407CE);
+  }
+
+  schoolSecondary() {
+    return Colors.grey[900];
+  }
+
+  schoolName() {
+    return "Saint Anne Academy";
+  }
+
+  schoolAddress() {
+    return "Piddig Ilocos Norte";
   }
 
   readBooks() async {

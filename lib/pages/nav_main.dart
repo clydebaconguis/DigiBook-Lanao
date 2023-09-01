@@ -28,12 +28,12 @@ class NavMain extends StatefulWidget {
 }
 
 class _NavMainState extends State<NavMain> {
-  Color theme = AppUtil().schoolColor();
+  Color theme = AppUtil().schoolSecondary();
 
   @override
   void initState() {
     getUser();
-    changeStatusBarColor(AppUtil().schoolColor());
+    changeStatusBarColor(AppUtil().schoolSecondary());
     super.initState();
   }
 
@@ -95,13 +95,13 @@ class _NavMainState extends State<NavMain> {
               children: [
                 const CircleAvatar(
                   radius: 20,
-                  backgroundImage: AssetImage("img/HSA.png"),
+                  backgroundImage: AssetImage("img/mylogo.png"),
                 ),
                 const SizedBox(width: 5.0),
                 !isWide
                     ? Expanded(
                         child: Text(
-                          "Holy Spirit Academy",
+                          "${AppUtil().schoolName()}",
                           style: GoogleFonts.prompt(
                             textStyle: const TextStyle(
                               color: Colors.white,
@@ -117,7 +117,7 @@ class _NavMainState extends State<NavMain> {
                     : Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          "Holy Spirit Academy",
+                          "${AppUtil().schoolName()}",
                           style: GoogleFonts.prompt(
                             textStyle: TextStyle(
                               color: Colors.white,

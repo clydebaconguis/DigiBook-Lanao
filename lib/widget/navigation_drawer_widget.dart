@@ -107,7 +107,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Color theme = AppUtil().schoolColor();
+    Color theme = AppUtil().schoolSecondary();
     final safeArea =
         EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top);
     final provider = Provider.of<NavigationProvider>(context);
@@ -369,7 +369,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   radius: 41,
                   child: CircleAvatar(
                     maxRadius: 48,
-                    backgroundImage: AssetImage("img/HSA.png"),
+                    backgroundImage: AssetImage("img/mylogo.png"),
                   ),
                 )
               : null,
@@ -385,7 +385,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   radius: 30,
                   child: CircleAvatar(
                     maxRadius: 40,
-                    backgroundImage: AssetImage("img/HSA.png"),
+                    backgroundImage: AssetImage("img/mylogo.png"),
                   ),
                 ),
               const SizedBox(width: 16),

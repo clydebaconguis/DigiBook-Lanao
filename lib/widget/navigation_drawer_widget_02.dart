@@ -23,7 +23,7 @@ class NavigationDrawerWidget2 extends StatefulWidget {
 }
 
 class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
-  Color theme = AppUtil().schoolColor();
+  Color theme = AppUtil().schoolSecondary();
   final padding = const EdgeInsets.symmetric(horizontal: 20);
   late List<PdfTile> files = [];
   late String currentBook = '';

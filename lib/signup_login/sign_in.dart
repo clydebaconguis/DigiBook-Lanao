@@ -78,16 +78,19 @@ class _Logo extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Holy Spirit Academy',
+          "${AppUtil().schoolName()}",
           style: GoogleFonts.prompt(
             fontSize: 25,
             fontWeight: FontWeight.bold,
-            color: Colors.grey[900],
+            color: AppUtil().schoolSecondary(),
           ),
         ),
         Text(
-          'Laoag City',
-          style: GoogleFonts.prompt(fontSize: 17, color: Colors.black87),
+          "${AppUtil().schoolAddress()}",
+          style: GoogleFonts.prompt(
+            fontSize: 17,
+            color: AppUtil().schoolSecondary(),
+          ),
         ),
         const SizedBox(height: 10),
       ],
@@ -135,7 +138,7 @@ class _Logo extends StatelessWidget {
         CircleAvatar(
           radius: isSmallScreen ? 60 : 90,
           backgroundColor: Colors.transparent,
-          backgroundImage: const AssetImage("img/HSA.png"),
+          backgroundImage: const AssetImage("img/mylogo.png"),
         ),
         Padding(
             padding: isSmallScreen
@@ -356,7 +359,7 @@ class __FormContentState extends State<_FormContent> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor:
-                    isButtonEnabled ? const Color(0xFF7A110A) : Colors.grey,
+                    isButtonEnabled ? AppUtil().schoolPrimary() : Colors.grey,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4)),
               ),

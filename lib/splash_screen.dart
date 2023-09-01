@@ -118,7 +118,7 @@ class _SplashState extends State<Splash> {
         splashIconSize: 100,
         duration: 2000,
         centered: true,
-        splash: 'img/HSA.png',
+        splash: 'img/mylogo.png',
         nextScreen: expired
             ? const SignIn()
             : loggedIn

@@ -29,7 +29,7 @@ class DetailBookPage extends StatefulWidget {
 }
 
 class _DetailBookPageState extends State<DetailBookPage> {
-  Color theme = AppUtil().schoolColor();
+  Color theme = AppUtil().schoolSecondary();
   String mainHost = CallApi().getHost();
   double _diskSpace = 0;
   bool lowStorage = false;

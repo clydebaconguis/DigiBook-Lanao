@@ -25,7 +25,7 @@ class NavPdf extends StatefulWidget {
 }
 
 class _NavPdfState extends State<NavPdf> {
-  Color theme = AppUtil().schoolColor();
+  Color theme = AppUtil().schoolSecondary();
   final GlobalKey<ScaffoldState> _scaffoldKey2 = GlobalKey<ScaffoldState>();
   String host = CallApi().getHost();
   late VideoPlayerController _videoPlayerController;

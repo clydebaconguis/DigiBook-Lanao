@@ -18,7 +18,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   var user = UserData.myUser;
-  Color theme = AppUtil().schoolColor();
+  Color theme = AppUtil().schoolSecondary();
   String grade = '';
   @override
   void initState() {
