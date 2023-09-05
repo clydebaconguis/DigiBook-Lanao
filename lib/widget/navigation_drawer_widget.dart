@@ -366,9 +366,9 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
           child: !iscons
               ? const CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  radius: 41,
+                  radius: 30,
                   child: CircleAvatar(
-                    maxRadius: 48,
+                    maxRadius: 36,
                     backgroundImage: AssetImage("img/mylogo.png"),
                   ),
                 )

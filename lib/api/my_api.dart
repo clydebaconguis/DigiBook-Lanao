@@ -4,14 +4,17 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CallApi {
+  final String _ckIpv4 = 'https://lms.smsaccess.net/';
+  final String _domain = 'https://ica.cklms.ph/api/';
+
   // final String _ckIpv4 = 'https://app.cklms.ph/';
   // final String _domain = 'https://app.cklms.ph/api/';
 
-  final String _ckIpv4 = 'https://lms.smsaccess.net/';
-  final String _domain = 'https://lms.smsaccess.net/api/';
-
   // final String _ckIpv4 = 'http://192.168.0.105:8000/';
   // final String _domain = 'http://192.168.0.105:8000/api/';
+
+  // final String _domain = 'https://lms.smsaccess.net/api/';
+
   getHost() {
     // var domain = await _loadSavedDomainName();
     // return '$domain/';
@@ -22,11 +25,11 @@ class CallApi {
     return _domain;
   }
 
-  postData(data, apiUrl) async {
-    // var fullUrl = _ckIpv4 + apiUrl;
-    // return await http.post(Uri.parse(fullUrl),
-    //     body: jsonEncode(data), headers: _setHeaders());
-  }
+  // postData(data, apiUrl) async {
+  // var fullUrl = _ckIpv4 + apiUrl;
+  // return await http.post(Uri.parse(fullUrl),
+  //     body: jsonEncode(data), headers: _setHeaders());
+  // }
 
   // login(data, apiUrl) async {
   //   // var domain = await _loadSavedDomainName();

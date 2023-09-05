@@ -84,6 +84,7 @@ class _Logo extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: AppUtil().schoolSecondary(),
           ),
+          textAlign: TextAlign.center,
         ),
         Text(
           "${AppUtil().schoolAddress()}",
@@ -91,6 +92,7 @@ class _Logo extends StatelessWidget {
             fontSize: 17,
             color: AppUtil().schoolSecondary(),
           ),
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 10),
       ],
@@ -205,11 +207,37 @@ class __FormContentState extends State<_FormContent> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     EasyLoading.show(status: 'loading...');
     var data = {
-      'email': emailController.text.toString(),
-      'password': passwordController.text.toString(),
+      'email': emailController.text,
+      'password': passwordController.text,
     };
 
+    // var user = {
+    //   "id": 3,
+    //   "name": "Izakahr O. Echem ",
+    //   "email": "Izakahr",
+    //   "mobilenum": "",
+    //   "type": 2,
+    //   "schoolabbr": null,
+    //   "sycnstatus": 0,
+    //   "deleted": 0,
+    //   "email_verified_at": null,
+    //   "remember_token": null,
+    //   "updateddatetime": null,
+    //   "isActive": 1,
+    //   "isDefault": 0,
+    //   "loggedIn": 0,
+    //   "dateLoggedIn": null,
+    //   "loggedOut": 0,
+    //   "dateLoggedOut": null,
+    //   "createddatetime": "2023-09-01 10:47:15",
+    // };
+
     try {
+      // localStorage.setString('token', 'izakahr');
+      // localStorage.setString('grade', 'Grade 9');
+      // localStorage.setString('user', json.encode(user));
+      // localStorage.setString('expiry', '');
+      //  _navigateToBooks();
       var res = await CallApi().login(data, 'studentlogin');
       if (res != null) {
         if (mounted) {
@@ -221,23 +249,15 @@ class __FormContentState extends State<_FormContent> {
           });
         }
       }
-      if (body['success']) {
-        if (expiration.isNotEmpty) {
-          final now = DateTime.now();
-          final expDate = DateTime.parse(expiration);
-          if (now.isAfter(expDate) || now.isAtSameMomentAs(expDate)) {
-            EasyLoading.showInfo('Subscription Expired!');
-            deleteExpiredBooks();
-          } else {
-            localStorage.setString('token', body['user']['name']);
-            localStorage.setString('grade', body['grade']);
-            localStorage.setString('user', json.encode(body['user']));
-            localStorage.setString('expiry', expiration);
-            _navigateToBooks();
-          }
+      if (body['success'] && expiration.isNotEmpty) {
+        final now = DateTime.now();
+        final expDate = DateTime.parse(expiration);
+        if (now.isAfter(expDate) || now.isAtSameMomentAs(expDate)) {
+          EasyLoading.showInfo('Subscription Expired!');
+          deleteExpiredBooks();
         } else {
-          localStorage.setString('token', body['user']['name']);
-          localStorage.setString('grade', body['grade']);
+          localStorage.setString('token', body['user']['name'] ?? 'Not Set');
+          localStorage.setString('grade', body['grade'] ?? 'Not Set');
           localStorage.setString('user', json.encode(body['user']));
           localStorage.setString('expiry', expiration);
           _navigateToBooks();
@@ -252,7 +272,7 @@ class __FormContentState extends State<_FormContent> {
       }
     } catch (e) {
       // print('Error during login: $e');
-      EasyLoading.showError('An error occurred during login');
+      EasyLoading.showError('An error occurred during login $e');
       if (mounted) {
         setState(() {
           isButtonEnabled = true;
