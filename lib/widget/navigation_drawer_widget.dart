@@ -65,11 +65,11 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         return AlertDialog(
           title: Text(
             'Logout',
-            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+            style: GoogleFonts.workSans(fontWeight: FontWeight.bold),
           ),
           content: Text(
             'Are you sure you want to log out?',
-            style: GoogleFonts.poppins(),
+            style: GoogleFonts.workSans(),
           ),
           actions: <Widget>[
             TextButton(
@@ -79,7 +79,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               },
               child: Text(
                 'Cancel',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.workSans(
                     fontWeight: FontWeight.bold, color: Colors.red),
               ),
             ),
@@ -96,7 +96,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               },
               child: Text(
                 'Logout',
-                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                style: GoogleFonts.workSans(fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -130,62 +130,84 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     : isCollapsed && !kIsWeb
                         ? MediaQuery.of(context).size.width * 0.2
                         : null,
-        child: Drawer(
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  theme,
-                  theme,
+        child: OrientationBuilder(builder: (context, orientation) {
+          bool isLandscape = orientation == Orientation.landscape;
+
+          return Drawer(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    theme,
+                    theme,
+                  ],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
+              ),
+              // color: const Color(0xff292735),
+              child: Stack(
+                children: <Widget>[
+                  ListView(
+                    children: [
+                      // if (constraints.maxWidth < 1000)
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 0)
+                            .add(safeArea),
+                        width: double.infinity,
+                        color: Colors.white12,
+                        child: buildHeader(
+                            isCollapsed, constraints.maxWidth >= 1000),
+                      ),
+                      buildProfileCircle(isCollapsed),
+                      const SizedBox(height: 20),
+                      Divider(color: Colors.grey.shade700),
+                      buildList(items: itemsFirst, isCollapsed: isCollapsed),
+                      const SizedBox(height: 40),
+                      if (isLandscape)
+                        buildLogout(
+                            items: itemsFirst2, isCollapsed: isCollapsed),
+                      if (isLandscape)
+                        Wrap(
+                          children: [
+                            if (!isCollapsed)
+                              const Copyright(
+                                labelColor: Colors.white,
+                              ),
+                            buildCollapseIcon(context, isCollapsed),
+                          ],
+                        ),
+                    ],
+                  ),
+                  if (!isLandscape)
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      left: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        child: Column(
+                          children: [
+                            buildLogout(
+                                items: itemsFirst2, isCollapsed: isCollapsed),
+                            Wrap(
+                              children: [
+                                if (!isCollapsed)
+                                  const Copyright(
+                                    labelColor: Colors.white,
+                                  ),
+                                buildCollapseIcon(context, isCollapsed),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                 ],
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
               ),
             ),
-            // color: const Color(0xff292735),
-            child: Column(
-              children: [
-                // if (constraints.maxWidth < 1000)
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0).add(safeArea),
-                  width: double.infinity,
-                  color: Colors.white12,
-                  child: buildHeader(isCollapsed, constraints.maxWidth >= 1000),
-                ),
-                const SizedBox(height: 24),
-                buildList(items: itemsFirst, isCollapsed: isCollapsed),
-                const SizedBox(height: 24),
-                const Divider(
-                  color: Colors.white24,
-                ),
-                buildProfileCircle(isCollapsed),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Divider(
-                  color: Colors.white24,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Spacer(),
-                buildLogout(items: itemsFirst2, isCollapsed: isCollapsed),
-                const SizedBox(height: 30),
-                Wrap(
-                  children: [
-                    if (!isCollapsed)
-                      const Copyright(
-                        labelColor: Colors.white,
-                      ),
-                    buildCollapseIcon(context, isCollapsed),
-                  ],
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
-          ),
-        ),
+          );
+        }),
       );
     });
   }
@@ -314,10 +336,10 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               leading: leading,
               title: Text(
                 text,
-                style: GoogleFonts.prompt(
+                style: GoogleFonts.workSans(
                   color: color,
                   fontSize: 17,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               onTap: onClicked,
@@ -362,61 +384,56 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   Widget buildHeader(bool isCollapsed, bool iscons) => isCollapsed
       ? Container(
-          padding: const EdgeInsets.only(bottom: 22, top: 22),
+          padding: const EdgeInsets.only(bottom: 22, top: 0),
           child: !iscons
               ? const CircleAvatar(
-                  backgroundColor: Colors.transparent,
+                  backgroundColor: Colors.white,
                   radius: 30,
                   child: CircleAvatar(
-                    maxRadius: 36,
+                    backgroundColor: Colors.white,
+                    maxRadius: 28,
                     backgroundImage: AssetImage("img/mylogo.png"),
                   ),
                 )
               : null,
         )
       : Container(
-          padding: const EdgeInsets.only(bottom: 22, top: 22),
+          padding: const EdgeInsets.only(bottom: 22, top: 0),
           child: Row(
             children: [
               const SizedBox(width: 24),
               if (!iscons)
                 const CircleAvatar(
-                  backgroundColor: Colors.transparent,
+                  backgroundColor: Colors.white,
                   radius: 30,
                   child: CircleAvatar(
-                    maxRadius: 40,
+                    backgroundColor: Colors.white,
+                    maxRadius: 28,
                     backgroundImage: AssetImage("img/mylogo.png"),
                   ),
                 ),
               const SizedBox(width: 16),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                    text: 'ICT',
-                    style: GoogleFonts.prompt(
-                      fontSize: 30,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    AppUtil().schoolAbbv(),
+                    style: GoogleFonts.orbitron(
+                      fontSize: 27,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.yellow.shade800,
                     ),
-                    children: [
-                      TextSpan(
-                        text: ' e',
-                        style: GoogleFonts.prompt(
-                          color: const Color.fromRGBO(242, 167, 0, 1),
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Book',
-                        style: GoogleFonts.prompt(
-                          color: const Color.fromRGBO(242, 167, 0, 1),
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ]),
-              ),
+                  ),
+                  Text(
+                    'ICT E-BOOK',
+                    style: GoogleFonts.orbitron(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.yellow.shade700,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         );
@@ -455,12 +472,12 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             Stack(
               children: [
                 CircleAvatar(
-                  radius: 32,
+                  radius: 30,
                   backgroundColor: Color(0xFFD5F6FF),
                   child: CircleAvatar(
                     backgroundColor: Color(0xFFD5F6FF),
                     backgroundImage: AssetImage("img/anonymous.jpg"),
-                    radius: 30,
+                    radius: 28,
                   ),
                 ),
                 // Positioned(
@@ -478,12 +495,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             const Stack(
               children: [
                 CircleAvatar(
-                  radius: 65,
-                  backgroundColor: Color(0xFFD5F6FF),
+                  radius: 40,
+                  // backgroundColor: Color(0xFFD5F6FF),
+                  backgroundColor: Colors.grey,
                   child: CircleAvatar(
                     backgroundColor: Color(0xFFD5F6FF),
                     backgroundImage: AssetImage("img/anonymous.jpg"),
-                    radius: 60,
+                    radius: 40,
                   ),
                 ),
               ],
@@ -493,11 +511,11 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
               child: Text(
                 user.name.toUpperCase(),
-                style: GoogleFonts.prompt(
+                style: GoogleFonts.orbitron(
                   textStyle: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
-                      fontSize: 18),
+                      fontSize: 16),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -507,10 +525,10 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             ),
             Text(
               grade.isNotEmpty ? grade : '',
-              style: GoogleFonts.prompt(
-                textStyle: const TextStyle(
-                  color: Colors.greenAccent,
-                  fontWeight: FontWeight.w700,
+              style: GoogleFonts.workSans(
+                textStyle: TextStyle(
+                  color: Colors.yellow.shade800,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               textAlign: TextAlign.center,

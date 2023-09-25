@@ -59,11 +59,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 Expanded(
                   child: Text(
                     "Profile",
-                    style: GoogleFonts.prompt(
-                      textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 18),
+                    style: GoogleFonts.orbitron(
+                      textStyle: TextStyle(
+                        color: Colors.yellow.shade800,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -137,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     const SizedBox(height: 22),
                                     Text(
                                       user.name,
-                                      style: GoogleFonts.prompt(
+                                      style: GoogleFonts.workSans(
                                         fontSize: 22.0,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -190,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage> {
         const SizedBox(width: 8.0),
         Text(
           '$label:',
-          style: GoogleFonts.prompt(
+          style: GoogleFonts.workSans(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Colors.black87,
@@ -200,7 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
         Expanded(
           child: Text(
             value,
-            style: GoogleFonts.prompt(
+            style: GoogleFonts.workSans(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Colors.black87,

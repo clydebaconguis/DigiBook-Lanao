@@ -305,7 +305,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
               Container(
                 padding: const EdgeInsets.only(left: 10.0, right: 8.0),
                 child: TextField(
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.workSans(
                     color: Colors.white,
                   ),
                   onChanged: (value) {
@@ -362,7 +362,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
                             ),
                             Text(
                               'Copyright $currentYear',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.workSans(
                                   color: Colors.white, fontSize: 12),
                               textAlign: TextAlign.center,
                             ),
@@ -371,7 +371,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
                             ),
                             Text(
                               'Powered by',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.workSans(
                                   color: Colors.white, fontSize: 12),
                               textAlign: TextAlign.center,
                             ),
@@ -439,7 +439,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
     required String path,
   }) {
     const color = Color.fromRGBO(70, 191, 247, 1);
-    const leadingPdf = Icon(Icons.menu_book, color: color);
+    const leadingPdf = Icon(Icons.menu_book_rounded, color: color);
 
     return Material(
       color: Colors.transparent,
@@ -451,7 +451,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
           : ListTile(
               leading: selectedPdf == text
                   ? const Icon(
-                      Icons.menu_book,
+                      Icons.menu_book_rounded,
                       color: Colors.greenAccent,
                     )
                   : leadingPdf,
@@ -468,9 +468,10 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
               title: Text(
                 removeFileExtension(text),
                 style: TextStyle(
-                    color:
-                        selectedPdf == text ? Colors.greenAccent : Colors.white,
-                    fontSize: 15),
+                  color:
+                      selectedPdf == text ? Colors.greenAccent : Colors.white,
+                  fontSize: 15,
+                ),
               ),
             ),
     );
@@ -543,7 +544,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
     const color2 = Colors.greenAccent;
     const color3 = Colors.red;
     // final color2 = Colors.pink.shade400;
-    const leadingPdf = Icon(Icons.menu_book, color: blue);
+    const leadingPdf = Icon(Icons.menu_book_rounded, color: blue);
     const leadingVidSelected =
         Icon(Icons.play_circle_outline, color: Colors.greenAccent);
     const leadingVid = Icon(Icons.play_circle_outline, color: Colors.orange);
@@ -581,7 +582,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
                 childrenPadding: const EdgeInsets.all(0),
                 title: Text(
                   text,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.workSans(
                       color: color, fontSize: 15, fontWeight: FontWeight.bold),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
@@ -599,7 +600,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
                             leading: (selectedPdf == et.title &&
                                     getFileExtension(et.title) == ".pdf")
                                 ? const Icon(
-                                    Icons.menu_book,
+                                    Icons.menu_book_rounded,
                                     color: Colors.greenAccent,
                                   )
                                 : (selectedPdf == et.title &&
@@ -632,7 +633,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
                             },
                             title: Text(
                               removeFileExtension(et.title),
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.workSans(
                                   color: selectedPdf == et.title
                                       ? Colors.greenAccent
                                       : Colors.white,
@@ -665,7 +666,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
                             collapsedIconColor: color,
                             title: Text(
                               e.title,
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.workSans(
                                 color: color,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -685,7 +686,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
                                           getFileExtension(item.title) ==
                                               ".pdf")
                                       ? const Icon(
-                                          Icons.menu_book,
+                                          Icons.menu_book_rounded,
                                           color: Colors.greenAccent,
                                         )
                                       : (selectedPdf == item.title &&
@@ -715,7 +716,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
                                   },
                                   title: Text(
                                     removeFileExtension(item.title),
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.workSans(
                                         color: selectedPdf == item.title
                                             ? Colors.greenAccent
                                             : Colors.white,
@@ -876,7 +877,7 @@ class _NavigationDrawerWidget2State extends State<NavigationDrawerWidget2> {
               flex: 3,
               child: Text(
                 currentBook,
-                style: GoogleFonts.prompt(
+                style: GoogleFonts.workSans(
                     fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),

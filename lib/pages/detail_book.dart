@@ -358,11 +358,11 @@ class _DetailBookPageState extends State<DetailBookPage> {
         return AlertDialog(
           title: Text(
             'Download ${widget.bookInfo.title}?',
-            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+            style: GoogleFonts.workSans(fontWeight: FontWeight.bold),
           ),
           content: Text(
             'Don\'t interrupt while book is being downloaded.',
-            style: GoogleFonts.poppins(),
+            style: GoogleFonts.workSans(),
           ),
           actions: <Widget>[
             TextButton(
@@ -372,7 +372,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
               },
               child: Text(
                 'Cancel',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.workSans(
                     fontWeight: FontWeight.bold, color: Colors.red),
               ),
             ),
@@ -388,7 +388,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
               },
               child: Text(
                 'Download',
-                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                style: GoogleFonts.workSans(fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -405,11 +405,11 @@ class _DetailBookPageState extends State<DetailBookPage> {
         return AlertDialog(
           title: Text(
             'Remove ${widget.bookInfo.title}?',
-            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+            style: GoogleFonts.workSans(fontWeight: FontWeight.bold),
           ),
           content: Text(
             'This will remove the book and its associated lessons from your phone.',
-            style: GoogleFonts.poppins(),
+            style: GoogleFonts.workSans(),
           ),
           actions: <Widget>[
             TextButton(
@@ -419,7 +419,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
               },
               child: Text(
                 'Cancel',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.workSans(
                     fontWeight: FontWeight.bold, color: Colors.red),
               ),
             ),
@@ -436,7 +436,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
               },
               child: Text(
                 'Confirm',
-                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                style: GoogleFonts.workSans(fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -502,11 +502,12 @@ class _DetailBookPageState extends State<DetailBookPage> {
                 Expanded(
                   child: Text(
                     widget.bookInfo.title,
-                    style: GoogleFonts.prompt(
-                      textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 18),
+                    style: GoogleFonts.orbitron(
+                      textStyle: TextStyle(
+                        color: Colors.yellow.shade800,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -599,7 +600,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
                               ),
                               Text(
                                 widget.bookInfo.title,
-                                style: GoogleFonts.prompt(
+                                style: GoogleFonts.workSans(
                                   textStyle: const TextStyle(
                                     color: Colors.black87,
                                     fontWeight: FontWeight.w900,
@@ -614,7 +615,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
                                 children: [
                                   Text(
                                     "Lessons: ",
-                                    style: GoogleFonts.prompt(
+                                    style: GoogleFonts.workSans(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
                                       color: Colors.black38,
@@ -623,7 +624,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
                                   lessonLength > 0
                                       ? Text(
                                           "$lessonLength items",
-                                          style: GoogleFonts.prompt(
+                                          style: GoogleFonts.workSans(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14,
                                             color: const Color(0xcd292735),
@@ -652,7 +653,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
                                 children: [
                                   Text(
                                     "Author:",
-                                    style: GoogleFonts.prompt(
+                                    style: GoogleFonts.workSans(
                                       color: Colors.black38,
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
@@ -676,36 +677,32 @@ class _DetailBookPageState extends State<DetailBookPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     const Divider(),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
                         Text(
-                          "DETAILS",
-                          style: GoogleFonts.prompt(
+                          "Details",
+                          style: GoogleFonts.workSans(
                             textStyle: const TextStyle(
                                 color: Colors.black87,
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.bold,
                                 fontSize: 18),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(right: 0),
                       child: Text(
                         'Presented by CK Children\'s Publishing, this book offers visual learning and integration for your benefit.'
                             .toUpperCase(),
-                        style: GoogleFonts.prompt(
-                            color: Colors.black87, fontSize: 15),
+                        style: GoogleFonts.workSans(
+                          color: Colors.black87,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -716,43 +713,39 @@ class _DetailBookPageState extends State<DetailBookPage> {
                       SizedBox(
                         child: Text(
                           pdfTitle,
-                          style: GoogleFonts.prompt(
+                          style: GoogleFonts.workSans(
                             textStyle: const TextStyle(
                               color: Colors.blue,
-                              fontWeight: FontWeight.normal,
                               fontSize: 14,
                             ),
                           ),
                           overflow:
                               TextOverflow.ellipsis, // Truncate text with ...
                           maxLines: 1, // Display only one line
-                          textAlign: TextAlign.start,
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     if (downloadEnabled)
                       LinearPercentIndicator(
+                        barRadius: const Radius.circular(10.0),
                         lineHeight: 20.0,
                         percent: downloadProgress <= 1.0 ? downloadProgress : 0,
                         center: Text(
-                            '${(downloadProgress * 100).toStringAsFixed(2)}%'),
+                          '${(downloadProgress * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(color: Colors.white),
+                        ),
                         progressColor: Colors.blue,
                       ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     if (downloadEnabled)
-                      finished
-                          ? const Text(
-                              'Finished.',
-                            )
-                          : const Text(
-                              'Please wait while the file is being downloaded.',
-                            ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-
-                    // const Divider(color: Color(0xFF7b8ea3)),
+                      Text(
+                        finished
+                            ? 'Finished.'
+                            : 'Please wait while the file is being downloaded.',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.workSans(),
+                      ),
+                    const SizedBox(height: 25),
                   ],
                 ),
                 // Floating button at the bottom
@@ -811,7 +804,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
                               children: [
                                 Icon(
                                   existBook
-                                      ? Icons.remove_red_eye_rounded
+                                      ? Icons.menu_book_rounded
                                       : Icons.download,
                                   color:
                                       Colors.white, // Set the icon color to red
@@ -821,7 +814,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
                                         8.0), // Add some spacing between icon and text
                                 Text(
                                   " ${existBook ? 'Explore' : 'Download'} ",
-                                  style: GoogleFonts.prompt(
+                                  style: GoogleFonts.workSans(
                                     textStyle: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,

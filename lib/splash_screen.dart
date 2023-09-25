@@ -93,7 +93,7 @@ class _SplashState extends State<Splash> {
     EasyLoading.instance
       ..displayDuration = const Duration(milliseconds: 2000)
       ..indicatorType = EasyLoadingIndicatorType.fadingCube
-      ..loadingStyle = kIsWeb ? EasyLoadingStyle.dark : EasyLoadingStyle.light
+      ..loadingStyle = EasyLoadingStyle.dark
       ..indicatorSize = 45.0
       ..radius = 10.0
       ..progressColor = Colors.green
@@ -110,7 +110,7 @@ class _SplashState extends State<Splash> {
     return MaterialApp(
       theme: ThemeData(
         textTheme: GoogleFonts
-            .poppinsTextTheme(), // Apply Poppins font to the entire app
+            .workSansTextTheme(), // Apply Poppins font to the entire app
       ),
       debugShowCheckedModeBanner: false,
       title: '',

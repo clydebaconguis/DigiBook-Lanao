@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AppUtil {
+  schoolAbbv() {
+    return "SNABI";
+  }
+
   schoolPrimary() {
-    return const Color(0xFF290F6D);
+    return const Color(0xFF05904A);
   }
 
   schoolSecondary() {
@@ -13,11 +17,11 @@ class AppUtil {
   }
 
   schoolName() {
-    return "Saint James Academy";
+    return "Sto. Niño Academy of Baroy, Inc.";
   }
 
   schoolAddress() {
-    return "Pasuquin Ilocos Norte";
+    return "Baroy, Lanao del Norte, Baroy, Philippines";
   }
 
   readBooks() async {

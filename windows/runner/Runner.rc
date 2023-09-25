@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "ICT-eBook SJA" "\0"
+            VALUE "FileDescription", "ICT-eBook SNABI" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "ICT-eBook SJA" "\0"
+            VALUE "InternalName", "ICT-eBook SNABI" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "ict_ebook_hsa.exe" "\0"
-            VALUE "ProductName", "ICT-eBook SJA" "\0"
+            VALUE "ProductName", "ICT-eBook SNABI" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

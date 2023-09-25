@@ -37,10 +37,12 @@ class _NavMainState extends State<NavMain> {
     super.initState();
   }
 
-  changeStatusBarColor(Color color) async {
+  void changeStatusBarColor(backgroundColor) async {
     if (!kIsWeb) {
-      await FlutterStatusbarcolor.setStatusBarColor(color);
-      if (useWhiteForeground(color)) {
+      await FlutterStatusbarcolor.setStatusBarColor(backgroundColor);
+
+      // Determine if the background color is dark and set the status bar text color accordingly
+      if (useWhiteForeground(backgroundColor)) {
         FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
       } else {
         FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
@@ -72,14 +74,20 @@ class _NavMainState extends State<NavMain> {
         return Scaffold(
           drawer: const NavigationDrawerWidget(),
           appBar: AppBar(
+            elevation: 4.0,
+            backgroundColor: Colors.white,
             toolbarHeight: constraints.maxWidth > 1000 ? 80 : 70,
-            elevation: 0,
             leadingWidth: constraints.maxWidth > 1000 ? 10 : null,
             leading:
                 constraints.maxWidth > 1000 ? const SizedBox.shrink() : null,
             titleSpacing: 0,
             flexibleSpace: Container(
               decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
                 gradient: LinearGradient(
                   colors: [
                     theme,
@@ -94,19 +102,24 @@ class _NavMainState extends State<NavMain> {
             title: Row(
               children: [
                 const CircleAvatar(
+                  backgroundColor: Colors.white,
                   radius: 20,
-                  backgroundImage: AssetImage("img/mylogo.png"),
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.white,
+                    backgroundImage: AssetImage("img/mylogo.png"),
+                  ),
                 ),
-                const SizedBox(width: 5.0),
+                const SizedBox(width: 10.0),
                 !isWide
                     ? Expanded(
                         child: Text(
                           "${AppUtil().schoolName()}",
-                          style: GoogleFonts.prompt(
-                            textStyle: const TextStyle(
-                              color: Colors.white,
+                          style: GoogleFonts.orbitron(
+                            textStyle: TextStyle(
+                              color: Colors.yellow.shade800,
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                              fontSize: 16,
                             ),
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -118,9 +131,9 @@ class _NavMainState extends State<NavMain> {
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
                           "${AppUtil().schoolName()}",
-                          style: GoogleFonts.prompt(
+                          style: GoogleFonts.orbitron(
                             textStyle: TextStyle(
-                              color: Colors.white,
+                              color: Colors.yellow.shade800,
                               fontWeight: FontWeight.bold,
                               fontSize: constraints.maxWidth >= 1000 ? 30 : 18,
                             ),

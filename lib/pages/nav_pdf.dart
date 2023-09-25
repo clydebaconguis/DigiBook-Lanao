@@ -151,11 +151,11 @@ class _NavPdfState extends State<NavPdf> {
           title: title.isEmpty
               ? Text(
                   removeFileExtension(widget.books.title),
-                  style: GoogleFonts.prompt(fontWeight: FontWeight.bold),
+                  style: GoogleFonts.workSans(fontWeight: FontWeight.bold),
                 )
               : Text(
                   removeFileExtension(title),
-                  style: GoogleFonts.prompt(fontWeight: FontWeight.bold),
+                  style: GoogleFonts.workSans(fontWeight: FontWeight.bold),
                 ),
           centerTitle: true,
           actions: [

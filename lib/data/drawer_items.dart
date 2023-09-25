@@ -8,7 +8,7 @@ final itemsFirst = [
   // const DrawerItem(title: 'Settings', icon: Icons.settings_outlined),
 ];
 final itemsFirst2 = [
-  const DrawerItem(title: 'Logout', icon: Icons.logout_outlined),
+  const DrawerItem(title: 'Logout', icon: Icons.exit_to_app),
   // DrawerItem(title: 'Testing & Debugging', icon: Icons.settings_applications),
   // DrawerItem(title: 'Performance & Optimization', icon: Icons.build),
 ];

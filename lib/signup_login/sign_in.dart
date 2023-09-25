@@ -32,7 +32,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
-    changeStatusBarColor(Colors.white);
+    changeStatusBarColor(Colors.grey.shade900);
     super.initState();
   }
 
@@ -41,32 +41,104 @@ class _SignInState extends State<SignIn> {
     final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
-      body: Center(
-        child: isSmallScreen
-            ? const Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _Logo(),
-                  _FormContent(),
-                ],
-              )
-            : Container(
-                padding: const EdgeInsets.all(32.0),
-                constraints: const BoxConstraints(maxWidth: 800),
-                child: const Row(
-                  children: [
-                    Expanded(
-                      child: _Logo(),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: _FormContent(),
+      body: OrientationBuilder(builder: (context, orientation) {
+        bool isLandscape = orientation == Orientation.landscape;
+        return SingleChildScrollView(
+          child: isSmallScreen
+              ? Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade800,
+                    image: DecorationImage(
+                      colorFilter: ColorFilter.mode(
+                        Colors.black
+                            .withOpacity(0.5), // Color to apply as a filter
+                        BlendMode.srcATop, // Blend mode
                       ),
+                      image: const AssetImage('img/cover.jpg'),
+                      fit: BoxFit.cover,
                     ),
-                  ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const _Logo(),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: isLandscape
+                              ? Colors.grey.shade800
+                              : Colors.white12,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Login',
+                                style: GoogleFonts.workSans(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            const _FormContent(),
+                            const SizedBox(height: 40),
+                            GestureDetector(
+                              onTap: () => EasyLoading.showInfo(
+                                  'Please notify your teacher or advisor if you\'ve forgotten your password.'),
+                              child: Text(
+                                'Forgot Password?',
+                                style: GoogleFonts.workSans(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade800,
+                    image: DecorationImage(
+                      colorFilter: ColorFilter.mode(
+                        Colors.black
+                            .withOpacity(0.5), // Color to apply as a filter
+                        BlendMode.srcATop, // Blend mode
+                      ),
+                      image: const AssetImage('img/cover.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(32.0),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: _Logo(),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: _FormContent(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-      ),
+        );
+      }),
     );
   }
 }
@@ -79,53 +151,25 @@ class _Logo extends StatelessWidget {
       children: [
         Text(
           "${AppUtil().schoolName()}",
-          style: GoogleFonts.prompt(
-            fontSize: 25,
+          style: GoogleFonts.workSans(
+            fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: AppUtil().schoolSecondary(),
+            color: Colors.white,
           ),
           textAlign: TextAlign.center,
         ),
+        const SizedBox(height: 5),
         Text(
           "${AppUtil().schoolAddress()}",
-          style: GoogleFonts.prompt(
-            fontSize: 17,
-            color: AppUtil().schoolSecondary(),
+          style: GoogleFonts.workSans(
+            fontSize: 14,
+            color: Colors.white,
           ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 10),
       ],
     );
-    // return RichText(
-    //   textAlign: TextAlign.center,
-    //   text: TextSpan(
-    //     text: 'Holy Spirit Academy',
-    //     style: GoogleFonts.prompt(
-    //       fontSize: 25,
-    //       fontWeight: FontWeight.bold,
-    //       color: const Color.fromRGBO(23, 0, 254, 1),
-    //     ),
-    // children: [
-    //   TextSpan(
-    //     text: ' e',
-    //     style: GoogleFonts.prompt(
-    //       color: Colors.yellow[800],
-    //       fontSize: 30,
-    //       fontWeight: FontWeight.bold,
-    //     ),
-    //   ),
-    //   TextSpan(
-    //     text: 'Book',
-    //     style: GoogleFonts.prompt(
-    //       color: Colors.yellow[800],
-    //       fontSize: 30,
-    //       fontWeight: FontWeight.bold,
-    //     ),
-    //   ),
-    // ],
-    // ),
-    // );
   }
 
   @override
@@ -138,27 +182,20 @@ class _Logo extends StatelessWidget {
       children: [
         // FlutterLogo(size: isSmallScreen ? 100 : 200),
         CircleAvatar(
-          radius: isSmallScreen ? 60 : 90,
-          backgroundColor: Colors.transparent,
-          backgroundImage: const AssetImage("img/mylogo.png"),
+          radius: 55,
+          backgroundColor: Colors.grey.shade400,
+          child: CircleAvatar(
+            radius: isSmallScreen ? 50 : 90,
+            backgroundColor: Colors.white,
+            backgroundImage: const AssetImage("img/mylogo.png"),
+          ),
         ),
+        const SizedBox(height: 10),
         Padding(
             padding: isSmallScreen
                 ? const EdgeInsets.all(10.0)
                 : const EdgeInsets.all(0.0),
-            child: _title()
-            // Text(
-            //   "Welcome to Flutter!",
-            //   textAlign: TextAlign.center,
-            //   style: isSmallScreen
-            //       ? Theme.of(context).textTheme.headline5
-            //       : Theme.of(context)
-            //           .textTheme
-            //           .headline4
-            //           ?.copyWith(color: Colors.black),
-            // ),
-
-            )
+            child: _title())
       ],
     );
   }
@@ -176,8 +213,6 @@ class __FormContentState extends State<_FormContent> {
   bool isButtonEnabled = true;
   var body = {};
   var expiration = '';
-  // bool _rememberMe = false;
-  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -211,33 +246,7 @@ class __FormContentState extends State<_FormContent> {
       'password': passwordController.text,
     };
 
-    // var user = {
-    //   "id": 3,
-    //   "name": "Izakahr O. Echem ",
-    //   "email": "Izakahr",
-    //   "mobilenum": "",
-    //   "type": 2,
-    //   "schoolabbr": null,
-    //   "sycnstatus": 0,
-    //   "deleted": 0,
-    //   "email_verified_at": null,
-    //   "remember_token": null,
-    //   "updateddatetime": null,
-    //   "isActive": 1,
-    //   "isDefault": 0,
-    //   "loggedIn": 0,
-    //   "dateLoggedIn": null,
-    //   "loggedOut": 0,
-    //   "dateLoggedOut": null,
-    //   "createddatetime": "2023-09-01 10:47:15",
-    // };
-
     try {
-      // localStorage.setString('token', 'izakahr');
-      // localStorage.setString('grade', 'Grade 9');
-      // localStorage.setString('user', json.encode(user));
-      // localStorage.setString('expiry', '');
-      //  _navigateToBooks();
       var res = await CallApi().login(data, 'studentlogin');
       if (res != null) {
         if (mounted) {
@@ -302,6 +311,7 @@ class __FormContentState extends State<_FormContent> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextFormField(
+            style: GoogleFonts.workSans(color: Colors.white),
             controller: emailController,
             validator: (value) {
               // add email validation
@@ -319,16 +329,34 @@ class __FormContentState extends State<_FormContent> {
               return null;
             },
             decoration: InputDecoration(
-              hintStyle: GoogleFonts.poppins(),
-              labelStyle: GoogleFonts.poppins(),
+              hintStyle: const TextStyle(color: Colors.white),
+              contentPadding: const EdgeInsets.symmetric(vertical: 6),
               labelText: 'Username',
+              labelStyle: const TextStyle(color: Colors.white),
               hintText: 'Enter your email',
-              prefixIcon: const Icon(Icons.email_outlined),
-              border: const OutlineInputBorder(),
+              prefixIcon: const Icon(
+                Icons.email_outlined,
+                color: Colors.white70,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  width: 2.0,
+                  color: Colors.white70, // Change the border color here
+                ),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  width: 2.0,
+                  color: Colors.blue, // Change the border color when focused
+                ),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
             ),
           ),
           _gap(),
           TextFormField(
+            style: GoogleFonts.workSans(color: Colors.white),
             controller: passwordController,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -342,16 +370,36 @@ class __FormContentState extends State<_FormContent> {
             },
             obscureText: !_isPasswordVisible,
             decoration: InputDecoration(
-                hintStyle: GoogleFonts.poppins(),
-                labelStyle: GoogleFonts.poppins(),
+                hintStyle: const TextStyle(color: Colors.white),
+                labelStyle: const TextStyle(color: Colors.white),
+                contentPadding: const EdgeInsets.symmetric(vertical: 6),
                 labelText: 'Password',
                 hintText: 'Enter your password',
-                prefixIcon: const Icon(Icons.lock_outline_rounded),
-                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(
+                  Icons.lock_outline_rounded,
+                  color: Colors.white70,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    width: 2.0,
+                    color: Colors.white70, // Change the border color here
+                  ),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    width: 2.0,
+                    color: Colors.blue, // Change the border color when focused
+                  ),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
                 suffixIcon: IconButton(
-                  icon: Icon(_isPasswordVisible
-                      ? Icons.visibility_off
-                      : Icons.visibility),
+                  icon: Icon(
+                    _isPasswordVisible
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                    color: Colors.white70,
+                  ),
                   onPressed: () {
                     setState(() {
                       _isPasswordVisible = !_isPasswordVisible;
@@ -378,10 +426,12 @@ class __FormContentState extends State<_FormContent> {
             width: double.infinity,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
+                shadowColor: Colors.white,
+                elevation: 10.0,
                 backgroundColor:
                     isButtonEnabled ? AppUtil().schoolPrimary() : Colors.grey,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4)),
+                    borderRadius: BorderRadius.circular(50)),
               ),
               onPressed: isButtonEnabled
                   ? () {
@@ -400,10 +450,10 @@ class __FormContentState extends State<_FormContent> {
                     }
                   : null,
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Text(
                   'Sign in',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.workSans(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
