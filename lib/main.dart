@@ -11,6 +11,22 @@ Future main() async {
   //   DeviceOrientation.portraitDown,
   // ]);
   changeStatusBarColor();
+//   final channel =
+//       IOWebSocketChannel.connect('ws://localhost:6001/queuing/announce-que');
+
+//   channel.stream.listen((message) {
+//     print('hello world');
+//     channel.sink.add('received!');
+//     channel.sink.close(status.goingAway);
+//   });
+//   // Create echo instance
+//   Echo echo = Echo(broadcaster: EchoBroadcasterType.Pusher, client: IO.io);
+
+// // Subscribe to a channel and listen for events
+//   echo.channel('Public.AnnounceQue.1').listen('.AnnounceQue', (event) {
+//     // Handle the event data received from Laravel
+//     print(event);
+//   });
 
   runApp(const Splash());
 }

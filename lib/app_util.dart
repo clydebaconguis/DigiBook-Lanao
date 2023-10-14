@@ -1,28 +1,30 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
+import 'package:ict_ebook_hsa/pages/schools_selection.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AppUtil {
-  schoolAbbv() {
-    return "SNABI";
-  }
+  // schoolAbbv() {
+  //   return "SJHS";
+  // }
 
-  schoolPrimary() {
-    return const Color(0xFF05904A);
-  }
+  // schoolPrimary() {
+  //   return const Color(0xFFA4040B);
+  // }
 
   schoolSecondary() {
     return Colors.grey[900];
   }
 
-  schoolName() {
-    return "Sto. Niño Academy of Baroy, Inc.";
-  }
+  // schoolName() {
+  //   return "Saint Jude High School";
+  // }
 
-  schoolAddress() {
-    return "Baroy, Lanao del Norte, Baroy, Philippines";
-  }
+  // schoolAddress() {
+  //   return "Sitio Regta, Poblacion @, Pagudpud, Ilocos Norte";
+  // }
 
   readBooks() async {
     var dir = await getApplicationSupportDirectory();
@@ -63,4 +65,48 @@ class AppUtil {
     String filename = file.path.split(Platform.pathSeparator).last;
     return filename;
   }
+
+  changeStatusBarColor(Color color) async {
+    await FlutterStatusbarcolor.setStatusBarColor(color);
+    if (useWhiteForeground(color)) {
+      FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    } else {
+      FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+    }
+  }
+
+  List<SchoolData> schools = [
+    SchoolData(
+      name: 'Christ the King College de Maranding',
+      img: 'img/CKCM.png',
+      domain: 'https://ckcm.cklms.ph/',
+      abbv: 'CKCM',
+      primary: const Color(0xFFFD3C03),
+      address: 'Maranding, Lala, Lanao del Norte, Maranding, Philippines',
+    ),
+    SchoolData(
+      name: 'Saint Francis Xavier Academy',
+      img: 'img/FRANCIS.png',
+      domain: 'https://sfxa.cklms.ph/',
+      abbv: 'SFXA',
+      primary: const Color(0xFF019651),
+      address: 'Poblacion, Kapatagan, Lanao del Norte',
+    ),
+    SchoolData(
+      name: 'Lanipao Catholic High School',
+      img: 'img/LANIPAO.png',
+      domain: 'https://lchs.cklms.ph/',
+      abbv: 'LCHS',
+      primary: const Color(0xFF026F39),
+      address: 'Lanipao Lala Lanao del Norte',
+    ),
+    SchoolData(
+      name: 'Sto. Niño Academy of Baroy',
+      img: 'img/SNABI.png',
+      domain: 'https://snabi.cklms.ph/',
+      abbv: 'SNABI',
+      primary: const Color(0xFF05904A),
+      address: 'Baroy, Lanao del Norte, Baroy, Philippines',
+    ),
+  ];
 }

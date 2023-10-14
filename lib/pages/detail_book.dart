@@ -31,6 +31,7 @@ class DetailBookPage extends StatefulWidget {
 class _DetailBookPageState extends State<DetailBookPage> {
   Color theme = AppUtil().schoolSecondary();
   String mainHost = CallApi().getHost();
+  String getCover = '';
   double _diskSpace = 0;
   bool lowStorage = false;
   var parts = [];
@@ -48,6 +49,8 @@ class _DetailBookPageState extends State<DetailBookPage> {
   String pdfTitle = '';
   bool downloadEnabled = false;
   bool finished = false;
+  int myschool = 0;
+  int itemdone = 0;
 
   checkIfBookExist() async {
     if (mounted) {
@@ -84,6 +87,10 @@ class _DetailBookPageState extends State<DetailBookPage> {
   getToken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final json = preferences.getString('token');
+    setState(() {
+      myschool = preferences.getInt('myschool') ?? 0;
+      getCover = AppUtil().schools[myschool].domain;
+    });
     if (json == null || json.isEmpty) {
       redirectToSignIn();
     }
@@ -92,7 +99,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
   void redirectToSignIn() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => const SignIn(),
+          builder: (context) => const SignIn(0),
         ),
         (Route<dynamic> route) => false);
   }
@@ -117,7 +124,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
   }
 
   downloadImage(String foldr, String filename, String imgUrl) async {
-    String host = "$mainHost$imgUrl";
+    String host = "$getCover$imgUrl";
     var savePath = '$foldr$filename';
     // print(savePath);
     var dio = Dio();
@@ -131,22 +138,34 @@ class _DetailBookPageState extends State<DetailBookPage> {
           followRedirects: false,
           receiveTimeout: const Duration(seconds: 60),
         ),
+
+        onReceiveProgress: (received, total) {
+          if (total != -1) {
+            EasyLoading.showProgress(received / total,
+                status: 'finishing up...');
+          }
+        },
       );
       var file = File(savePath);
       var raf = file.openSync(mode: FileMode.write);
       // response.data is List<int> type
       raf.writeFromSync(response.data);
       await raf.close();
-      // print("image dowloaded successfully");
+      print("Image downloaded successfully");
+      return true;
     } catch (e) {
       debugPrint(e.toString());
-      // print("image failed to download");
+      print("image failed to download");
+      return true;
     }
   }
 
   _fetchParts() async {
     appDir = await getApplicationSupportDirectory();
-    CallApi().getPublicData('bookchapter2/${widget.bookInfo.bookid}').then(
+    CallApi()
+        .getPublicData(
+            'bookchapter2/${widget.bookInfo.bookid}', "${getCover}api/")
+        .then(
       (response) {
         if (mounted) {
           setState(
@@ -194,7 +213,6 @@ class _DetailBookPageState extends State<DetailBookPage> {
       final Directory appDirFolder =
           Directory("${appDir.path}/${widget.bookInfo.title}/");
       bookNewFolder = await appDirFolder.create(recursive: true);
-      downloadImage(bookNewFolder.path, "cover_image", bookCoverUrl);
 
       if (parts.isNotEmpty) {
         for (var part in parts) {
@@ -280,10 +298,14 @@ class _DetailBookPageState extends State<DetailBookPage> {
     if (mounted) {
       setState(() {
         finished = true;
+        downloadFutures.clear();
       });
     }
     saveCurrentBook(widget.bookInfo.title);
-    navigateToMainNav("${bookNewFolder.path}cover_image");
+
+    if (await downloadImage(bookNewFolder.path, "cover_image", bookCoverUrl)) {
+      navigateToMainNav("${bookNewFolder.path}cover_image");
+    }
   }
 
   navigateToMainNav(String path) {
@@ -318,6 +340,9 @@ class _DetailBookPageState extends State<DetailBookPage> {
   // Function to download each pdf.
   Future<void> downloadPdfFiles(PdfDownloadInfo pdfInfo) async {
     try {
+      setState(() {
+        pdfTitle = "Progress for ${pdfInfo.title}";
+      });
       final Dio dio = Dio();
       dio.interceptors.add(LogInterceptor());
       final savePath = pdfInfo.savePath;
@@ -330,19 +355,20 @@ class _DetailBookPageState extends State<DetailBookPage> {
         onReceiveProgress: (received, total) {
           if (total != -1) {
             setState(() {
-              if (pdfTitle != pdfInfo.title) {
-                pdfTitle = pdfInfo.title;
-              }
               downloadProgress = received / total;
             });
           }
         },
       );
+      setState(() {
+        pdfTitle = "Progress for ${pdfInfo.title}";
+      });
 
       final file = File(savePath);
       await file.writeAsBytes(response.data);
 
       setState(() {
+        itemdone++;
         downloadProgress = 1.0; // Set progress to 100% after download
       });
     } catch (e) {
@@ -461,6 +487,9 @@ class _DetailBookPageState extends State<DetailBookPage> {
         if (mounted) {
           setState(() {
             existBook = false;
+            itemdone = 0;
+            downloadEnabled = false;
+            pdfDownloadList.clear();
           });
         }
         EasyLoading.showToast("Cleared successfully");
@@ -481,21 +510,24 @@ class _DetailBookPageState extends State<DetailBookPage> {
       body: Container(
         color: Colors.white,
         child: Scaffold(
-          backgroundColor: Colors.white,
           appBar: AppBar(
+            elevation: 0,
+            shadowColor: Colors.grey,
+            backgroundColor: Colors.white,
+            iconTheme: const IconThemeData(color: Colors.black),
             titleSpacing: 0,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    theme,
-                    theme,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-            ),
+            // flexibleSpace: Container(
+            //   decoration: BoxDecoration(
+            //     gradient: LinearGradient(
+            //       colors: [
+            //         theme,
+            //         theme,
+            //       ],
+            //       begin: Alignment.topLeft,
+            //       end: Alignment.bottomRight,
+            //     ),
+            //   ),
+            // ),
             // backgroundColor: const Color(0xff500a34),
             title: Row(
               children: [
@@ -503,8 +535,8 @@ class _DetailBookPageState extends State<DetailBookPage> {
                   child: Text(
                     widget.bookInfo.title,
                     style: GoogleFonts.orbitron(
-                      textStyle: TextStyle(
-                        color: Colors.yellow.shade800,
+                      textStyle: const TextStyle(
+                        color: Colors.black87,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -518,7 +550,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
             ),
           ),
           body: Container(
-            color: Colors.white,
+            color: Colors.grey.shade50,
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Stack(
               children: <Widget>[
@@ -531,10 +563,11 @@ class _DetailBookPageState extends State<DetailBookPage> {
                       children: [
                         Material(
                           elevation: 0.0,
-                          child: widget.bookInfo.picurl.isNotEmpty
+                          child: widget.bookInfo.picurl.isNotEmpty &&
+                                  getCover.isNotEmpty
                               ? CachedNetworkImage(
                                   imageUrl:
-                                      '$mainHost${widget.bookInfo.picurl}',
+                                      '$getCover${widget.bookInfo.picurl}',
                                   imageBuilder: (context, imageProvider) =>
                                       Container(
                                     height: 200,
@@ -709,13 +742,18 @@ class _DetailBookPageState extends State<DetailBookPage> {
                       height: 10,
                     ),
                     if (downloadEnabled) const Divider(),
-                    if (pdfTitle.isNotEmpty)
+                    if (downloadEnabled)
+                      Text(
+                        "Item done ${itemdone.toString()}/${pdfDownloadList.length}",
+                      ),
+                    const SizedBox(height: 5),
+                    if (pdfTitle.isNotEmpty && downloadEnabled)
                       SizedBox(
                         child: Text(
                           pdfTitle,
                           style: GoogleFonts.workSans(
                             textStyle: const TextStyle(
-                              color: Colors.blue,
+                              color: Colors.black,
                               fontSize: 14,
                             ),
                           ),
@@ -725,6 +763,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
                           textAlign: TextAlign.center,
                         ),
                       ),
+                    const SizedBox(height: 10),
                     if (downloadEnabled)
                       LinearPercentIndicator(
                         barRadius: const Radius.circular(10.0),
@@ -789,7 +828,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
                                 elevation: 10.0,
                                 foregroundColor: Colors.white,
                                 backgroundColor: isButtonEnabled
-                                    ? Colors.green[600]
+                                    ? const Color.fromARGB(255, 19, 207, 25)
                                     : Colors.grey,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(23.0),
@@ -842,7 +881,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
                                   const CircleBorder(), // Use CircleBorder to make it circular
                             ),
                             child: const Icon(
-                              Icons.delete_sweep_sharp,
+                              Icons.delete_forever_rounded,
                               color: Colors.white,
                             ),
                           )

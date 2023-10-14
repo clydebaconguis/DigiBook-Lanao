@@ -54,7 +54,7 @@ class _NavPdfState extends State<NavPdf> {
   void redirectToSignIn() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => const SignIn(),
+          builder: (context) => const SignIn(0),
         ),
         (Route<dynamic> route) => false);
   }
@@ -136,18 +136,22 @@ class _NavPdfState extends State<NavPdf> {
         key: _scaffoldKey2, // Assign the GlobalKey to the Scaffold
         drawer: NavigationDrawerWidget2(updateData: updateData),
         appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  theme,
-                  theme,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-          ),
+          elevation: 2.0,
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          iconTheme: const IconThemeData(color: Colors.black),
+          // flexibleSpace: Container(
+          //   decoration: BoxDecoration(
+          //     gradient: LinearGradient(
+          //       colors: [
+          //         theme,
+          //         theme,
+          //       ],
+          //       begin: Alignment.topLeft,
+          //       end: Alignment.bottomRight,
+          //     ),
+          //   ),
+          // ),
           title: title.isEmpty
               ? Text(
                   removeFileExtension(widget.books.title),

@@ -1,156 +1,248 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:ict_ebook_hsa/api/my_api.dart';
 import 'package:ict_ebook_hsa/app_util.dart';
 import 'package:ict_ebook_hsa/pages/nav_main.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:web_socket_channel/io.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+  final int index;
+  const SignIn(this.index, {Key? key}) : super(key: key);
 
   @override
   State<SignIn> createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
-  changeStatusBarColor(Color color) async {
-    if (!kIsWeb) {
-      await FlutterStatusbarcolor.setStatusBarColor(color);
-      if (useWhiteForeground(color)) {
-        FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-      } else {
-        FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-      }
-    }
-  }
+  var selectedschool = 0;
+  // var message = '';
+
+  // final channel = IOWebSocketChannel.connect(
+  //   Uri.parse('ws://192.168.0.192:6001/app/livepost_key'),
+  // );
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   channel.sink.close();
+  // }
+
+  // websocketCon() {
+  //   channel.sink.add(json.encode({
+  //     "event": "pusher:subscribe",
+  //     "data": {"channel": "Public.message"}
+  //   }));
+
+  //   channel.stream.listen((data) {
+  //     Map<String, dynamic> messageData = jsonDecode(data);
+
+  //     if (messageData.containsKey("data")) {
+  //       Map<String, dynamic> data = jsonDecode(messageData["data"]);
+  //       if (data.containsKey("message")) {
+  //         setState(() {
+  //           message = data["message"];
+  //         });
+  //         // Now you have the message, and you can use it in your Flutter app.
+  //         print("Received Message: $message");
+  //       }
+  //     }
+  //   }, onError: (error) {
+  //     print("Socket: error => $error");
+  //   }, onDone: () {
+  //     print("Socket: done");
+  //   });
+  // }
 
   @override
   void initState() {
-    changeStatusBarColor(Colors.grey.shade900);
+    selectedschool = widget.index;
+    AppUtil().changeStatusBarColor(Colors.black);
     super.initState();
+    // websocketCon();
   }
 
   @override
   Widget build(BuildContext context) {
     final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
 
-    return Scaffold(
-      body: OrientationBuilder(builder: (context, orientation) {
-        bool isLandscape = orientation == Orientation.landscape;
-        return SingleChildScrollView(
-          child: isSmallScreen
-              ? Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade800,
-                    image: DecorationImage(
-                      colorFilter: ColorFilter.mode(
-                        Colors.black
-                            .withOpacity(0.5), // Color to apply as a filter
-                        BlendMode.srcATop, // Blend mode
-                      ),
-                      image: const AssetImage('img/cover.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const _Logo(),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: isLandscape
-                              ? Colors.grey.shade800
-                              : Colors.white12,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
+    return SafeArea(
+      child: Scaffold(
+        body: OrientationBuilder(builder: (context, orientation) {
+          bool isLandscape = orientation == Orientation.landscape;
+          return SingleChildScrollView(
+            child: isSmallScreen
+                ? Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade800,
+                      image: DecorationImage(
+                        colorFilter: ColorFilter.mode(
+                          Colors.black
+                              .withOpacity(0.5), // Color to apply as a filter
+                          BlendMode.srcATop, // Blend mode
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Login',
-                                style: GoogleFonts.workSans(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
+                        image: const AssetImage('img/mycover.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: ListView(
+                      children: [
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: CustomSearchableDropDown(
+                            dropdownHintText: 'Search For School Here... ',
+                            showLabelInMenu: true,
+                            primaryColor: Colors.red,
+                            menuMode: true,
+                            labelStyle: const TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                            items: AppUtil().schools,
+                            label: 'Select School',
+                            prefixIcon: const Padding(
+                              padding: EdgeInsets.all(0.0),
+                              child: Icon(Icons.search),
                             ),
-                            const SizedBox(height: 5),
-                            const _FormContent(),
-                            const SizedBox(height: 40),
-                            GestureDetector(
-                              onTap: () => EasyLoading.showInfo(
-                                  'Please notify your teacher or advisor if you\'ve forgotten your password.'),
-                              child: Text(
-                                'Forgot Password?',
-                                style: GoogleFonts.workSans(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
+                            dropDownMenuItems: AppUtil().schools.map((item) {
+                              return item.name;
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedschool = AppUtil().schools.indexWhere(
+                                    (item) => item.name == value.name);
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        _Logo(selectedschool),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: isLandscape
+                                ? Colors.grey.shade800
+                                : Colors.white10,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Login',
+                                  style: GoogleFonts.workSans(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
+                              ),
+                              const SizedBox(height: 5),
+                              _FormContent(selectedschool),
+                              const SizedBox(height: 40),
+                              GestureDetector(
+                                onTap: () => EasyLoading.showInfo(
+                                    'Please notify your teacher or advisor if you\'ve forgotten your password.'),
+                                child: Text(
+                                  'Forgot Password?',
+                                  style: GoogleFonts.workSans(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade800,
+                      image: DecorationImage(
+                        colorFilter: ColorFilter.mode(
+                          Colors.black
+                              .withOpacity(0.5), // Color to apply as a filter
+                          BlendMode.srcATop, // Blend mode
+                        ),
+                        image: const AssetImage('img/mycover.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(32.0),
+                    child: ListView(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: CustomSearchableDropDown(
+                            dropdownHintText: 'Search For School Here... ',
+                            showLabelInMenu: true,
+                            primaryColor: Colors.red,
+                            menuMode: true,
+                            labelStyle: const TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                            items: AppUtil().schools,
+                            label: 'Select School',
+                            prefixIcon: const Padding(
+                              padding: EdgeInsets.all(0.0),
+                              child: Icon(Icons.search),
+                            ),
+                            dropDownMenuItems: AppUtil().schools.map((item) {
+                              return item.name;
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedschool = AppUtil().schools.indexWhere(
+                                    (item) => item.name == value.name);
+                              });
+                            },
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _Logo(selectedschool),
+                            ),
+                            Expanded(
+                              child: Center(
+                                child: _FormContent(selectedschool),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              : Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade800,
-                    image: DecorationImage(
-                      colorFilter: ColorFilter.mode(
-                        Colors.black
-                            .withOpacity(0.5), // Color to apply as a filter
-                        BlendMode.srcATop, // Blend mode
-                      ),
-                      image: const AssetImage('img/cover.jpg'),
-                      fit: BoxFit.cover,
+                      ],
                     ),
                   ),
-                  padding: const EdgeInsets.all(32.0),
-                  child: const Row(
-                    children: [
-                      Expanded(
-                        child: _Logo(),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: _FormContent(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }
 
 class _Logo extends StatelessWidget {
-  const _Logo({Key? key}) : super(key: key);
+  final int pos;
+  const _Logo(this.pos, {Key? key}) : super(key: key);
 
   Widget _title() {
     return Column(
       children: [
         Text(
-          "${AppUtil().schoolName()}",
+          AppUtil().schools[pos].name,
           style: GoogleFonts.workSans(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -160,7 +252,7 @@ class _Logo extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         Text(
-          "${AppUtil().schoolAddress()}",
+          AppUtil().schools[pos].address,
           style: GoogleFonts.workSans(
             fontSize: 14,
             color: Colors.white,
@@ -187,7 +279,7 @@ class _Logo extends StatelessWidget {
           child: CircleAvatar(
             radius: isSmallScreen ? 50 : 90,
             backgroundColor: Colors.white,
-            backgroundImage: const AssetImage("img/mylogo.png"),
+            backgroundImage: AssetImage(AppUtil().schools[pos].img),
           ),
         ),
         const SizedBox(height: 10),
@@ -202,19 +294,23 @@ class _Logo extends StatelessWidget {
 }
 
 class _FormContent extends StatefulWidget {
-  const _FormContent({Key? key}) : super(key: key);
+  final int pos;
+  const _FormContent(this.pos, {Key? key}) : super(key: key);
 
   @override
   State<_FormContent> createState() => __FormContentState();
 }
 
 class __FormContentState extends State<_FormContent> {
-  bool _isPasswordVisible = false;
+  bool isPasswordVisible = false;
   bool isButtonEnabled = true;
   var body = {};
   var expiration = '';
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  // final channel = IOWebSocketChannel.connect(
+  //   Uri.parse('ws://192.168.0.192:6001/app/livepost_key'),
+  // );
 
   deleteExpiredBooks() async {
     List<FileSystemEntity> result = await AppUtil().readBooks();
@@ -247,7 +343,11 @@ class __FormContentState extends State<_FormContent> {
     };
 
     try {
-      var res = await CallApi().login(data, 'studentlogin');
+      var res = await CallApi().login(
+        data,
+        'api/studentlogin',
+        AppUtil().schools[widget.pos].domain,
+      );
       if (res != null) {
         if (mounted) {
           setState(() {
@@ -269,6 +369,7 @@ class __FormContentState extends State<_FormContent> {
           localStorage.setString('grade', body['grade'] ?? 'Not Set');
           localStorage.setString('user', json.encode(body['user']));
           localStorage.setString('expiry', expiration);
+          localStorage.setInt('myschool', widget.pos);
           _navigateToBooks();
         }
       } else {
@@ -301,6 +402,16 @@ class __FormContentState extends State<_FormContent> {
       });
     }
   }
+
+  // websocketCon() {
+  //   channel.sink.add(json.encode({
+  //     "event": "pusher:subscribe",
+  //     "data": {"channel": "Public.message"}
+  //   }));
+
+  //   AppUtil().changeStatusBarColor(Colors.black);
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -368,7 +479,7 @@ class __FormContentState extends State<_FormContent> {
               }
               return null;
             },
-            obscureText: !_isPasswordVisible,
+            obscureText: !isPasswordVisible,
             decoration: InputDecoration(
                 hintStyle: const TextStyle(color: Colors.white),
                 labelStyle: const TextStyle(color: Colors.white),
@@ -395,14 +506,12 @@ class __FormContentState extends State<_FormContent> {
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(
-                    _isPasswordVisible
-                        ? Icons.visibility_off
-                        : Icons.visibility,
+                    isPasswordVisible ? Icons.visibility_off : Icons.visibility,
                     color: Colors.white70,
                   ),
                   onPressed: () {
                     setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
+                      isPasswordVisible = !isPasswordVisible;
                     });
                   },
                 )),
@@ -428,13 +537,16 @@ class __FormContentState extends State<_FormContent> {
               style: ElevatedButton.styleFrom(
                 shadowColor: Colors.white,
                 elevation: 10.0,
-                backgroundColor:
-                    isButtonEnabled ? AppUtil().schoolPrimary() : Colors.grey,
+                backgroundColor: isButtonEnabled
+                    ? AppUtil().schools[widget.pos].primary
+                    : Colors.grey,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50)),
               ),
               onPressed: isButtonEnabled
                   ? () {
+                      // websocketCon();
+
                       if (emailController.text.isEmpty ||
                           passwordController.text.isEmpty) {
                         EasyLoading.showToast(

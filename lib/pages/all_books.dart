@@ -25,7 +25,8 @@ class AllBooks extends StatefulWidget {
 
 class _AllBooksState extends State<AllBooks> {
   late ConnectivityResult _connectivityResult = ConnectivityResult.none;
-  String host = CallApi().getHost();
+  String host = '';
+  int myschool = 0;
   var books = <Books2>[];
   List<PdfTile> files = [];
   bool reloaded = false;
@@ -56,16 +57,17 @@ class _AllBooksState extends State<AllBooks> {
     }
 
     setState(() {
-      // host = savedDomainName;
+      myschool = preferences.getInt('myschool') ?? 0;
+
       user = json == null ? UserData.myUser : User.fromJson(jsonDecode(json));
-      // print(user.id);
+      host = AppUtil().schools[myschool].domain;
     });
   }
 
   void redirectToSignIn() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => const SignIn(),
+          builder: (context) => const SignIn(0),
         ),
         (Route<dynamic> route) => false);
   }
@@ -185,7 +187,9 @@ class _AllBooksState extends State<AllBooks> {
     files.clear();
     books.clear();
     try {
-      await CallApi().getPublicData("viewbook?id=${user.id}").then((response) {
+      await CallApi()
+          .getPublicData("viewbook?id=${user.id}", "${host}api/")
+          .then((response) {
         setState(() {
           Iterable list = json.decode(response.body);
           // print(list);
@@ -223,7 +227,7 @@ class _AllBooksState extends State<AllBooks> {
       // bool isWide = constraints.maxWidth > 500;
       return Scaffold(
         body: Container(
-          color: Colors.white,
+          color: Colors.grey.shade50,
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

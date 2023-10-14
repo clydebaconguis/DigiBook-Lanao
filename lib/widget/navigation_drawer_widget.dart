@@ -6,8 +6,8 @@ import 'package:ict_ebook_hsa/data/drawer_items.dart';
 import 'package:ict_ebook_hsa/models/drawer_item.dart';
 import 'package:ict_ebook_hsa/pages/nav_main.dart';
 import 'package:ict_ebook_hsa/pages/profile_page.dart';
+import 'package:ict_ebook_hsa/pages/schools_selection.dart';
 import 'package:ict_ebook_hsa/provider/navigation_provider.dart';
-import 'package:ict_ebook_hsa/signup_login/sign_in.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -33,6 +33,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   var user = UserData.myUser;
   String grade = '';
   String currentPage = '';
+  int myschool = -1;
 
   @override
   void initState() {
@@ -44,9 +45,10 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   getUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final json = preferences.getString('user');
-    grade = preferences.getString('grade')!;
 
     setState(() {
+      grade = preferences.getString('grade')!;
+      myschool = preferences.getInt('myschool') ?? 0;
       user = json == null ? UserData.myUser : User.fromJson(jsonDecode(json));
     });
   }
@@ -90,7 +92,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                 logout();
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => const SignIn(),
+                      builder: (context) => const SimpleDropDown(),
                     ),
                     (Route<dynamic> route) => false);
               },
@@ -152,8 +154,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     children: [
                       // if (constraints.maxWidth < 1000)
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 0)
-                            .add(safeArea),
+                        padding: const EdgeInsets.only(top: 15).add(safeArea),
                         width: double.infinity,
                         color: Colors.white12,
                         child: buildHeader(
@@ -384,32 +385,36 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   Widget buildHeader(bool isCollapsed, bool iscons) => isCollapsed
       ? Container(
-          padding: const EdgeInsets.only(bottom: 22, top: 0),
+          padding: const EdgeInsets.only(bottom: 15, top: 0),
           child: !iscons
-              ? const CircleAvatar(
+              ? CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: 30,
                   child: CircleAvatar(
                     backgroundColor: Colors.white,
                     maxRadius: 28,
-                    backgroundImage: AssetImage("img/mylogo.png"),
+                    backgroundImage: myschool.isNegative
+                        ? null
+                        : AssetImage(AppUtil().schools[myschool].img),
                   ),
                 )
               : null,
         )
       : Container(
-          padding: const EdgeInsets.only(bottom: 22, top: 0),
+          padding: const EdgeInsets.only(bottom: 15, top: 0),
           child: Row(
             children: [
               const SizedBox(width: 24),
               if (!iscons)
-                const CircleAvatar(
+                CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: 30,
                   child: CircleAvatar(
                     backgroundColor: Colors.white,
                     maxRadius: 28,
-                    backgroundImage: AssetImage("img/mylogo.png"),
+                    backgroundImage: myschool.isNegative
+                        ? null
+                        : AssetImage(AppUtil().schools[myschool].img),
                   ),
                 ),
               const SizedBox(width: 16),
@@ -417,19 +422,20 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    AppUtil().schoolAbbv(),
-                    style: GoogleFonts.orbitron(
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.yellow.shade800,
+                  if (!myschool.isNegative)
+                    Text(
+                      AppUtil().schools[myschool].abbv,
+                      style: GoogleFonts.orbitron(
+                        fontSize: 27,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.yellow.shade800,
+                      ),
                     ),
-                  ),
                   Text(
-                    'ICT E-BOOK',
+                    'DigiBook',
                     style: GoogleFonts.orbitron(
                       fontWeight: FontWeight.bold,
-                      color: Colors.yellow.shade700,
+                      color: Colors.grey.shade300,
                     ),
                   ),
                 ],
@@ -473,11 +479,11 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               children: [
                 CircleAvatar(
                   radius: 30,
-                  backgroundColor: Color(0xFFD5F6FF),
-                  child: CircleAvatar(
-                    backgroundColor: Color(0xFFD5F6FF),
-                    backgroundImage: AssetImage("img/anonymous.jpg"),
-                    radius: 28,
+                  backgroundColor: Colors.white10,
+                  child: Icon(
+                    Icons.person,
+                    size: 40,
+                    color: Colors.grey,
                   ),
                 ),
                 // Positioned(
@@ -496,12 +502,11 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  // backgroundColor: Color(0xFFD5F6FF),
-                  backgroundColor: Colors.grey,
-                  child: CircleAvatar(
-                    backgroundColor: Color(0xFFD5F6FF),
-                    backgroundImage: AssetImage("img/anonymous.jpg"),
-                    radius: 40,
+                  backgroundColor: Colors.white10,
+                  child: Icon(
+                    Icons.person,
+                    size: 50,
+                    color: Colors.grey,
                   ),
                 ),
               ],
@@ -512,8 +517,8 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               child: Text(
                 user.name.toUpperCase(),
                 style: GoogleFonts.orbitron(
-                  textStyle: const TextStyle(
-                      color: Colors.white,
+                  textStyle: TextStyle(
+                      color: Colors.grey.shade300,
                       fontWeight: FontWeight.w700,
                       fontSize: 16),
                 ),

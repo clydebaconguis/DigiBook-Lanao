@@ -1,8 +1,7 @@
 import 'package:ict_ebook_hsa/pages/nav_main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_app_backend/pages/article_page.dart';
-import 'package:ict_ebook_hsa/signup_login/sign_in.dart';
+import 'package:ict_ebook_hsa/pages/schools_selection.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -58,7 +57,7 @@ class _AuthPageState extends State<AuthPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: (isLoggedIn ? const MyNav() : const SignIn()),
+        body: (isLoggedIn ? const MyNav() : const SimpleDropDown()),
       ),
     );
   }

@@ -1,9 +1,8 @@
 import 'package:concentric_transition/concentric_transition.dart';
+import 'package:ict_ebook_hsa/app_util.dart';
 import 'package:ict_ebook_hsa/auth/auth_page.dart';
 import 'package:ict_ebook_hsa/pages/nav_main.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final pages = [
@@ -35,17 +34,18 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  late bool isLoggedIn;
+  late bool isLoggedIn = false;
   @override
   void initState() {
     _checkLoginStatus();
-    changeStatusBarColor(const Color(0xff3b1791));
+    AppUtil().changeStatusBarColor(const Color(0xff3b1791));
     super.initState();
   }
 
   _checkLoginStatus() async {
+    var token = '';
     SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var token = localStorage.getString('token') ?? '';
+    token = localStorage.getString('token') ?? '';
     if (mounted) {
       setState(() {
         isLoggedIn = token.isNotEmpty;
@@ -70,17 +70,6 @@ class _WelcomeState extends State<Welcome> {
         (Route<dynamic> route) => false);
   }
 
-  changeStatusBarColor(Color color) async {
-    if (!kIsWeb) {
-      await FlutterStatusbarcolor.setStatusBarColor(color);
-      if (useWhiteForeground(color)) {
-        FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-      } else {
-        FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -89,7 +78,8 @@ class _WelcomeState extends State<Welcome> {
             body: ConcentricPageView(
               onFinish: () => checkAuth(),
               colors: pages.map((p) => p.bgColor).toList(),
-              onChange: (page) => changeStatusBarColor(pages[page].bgColor),
+              onChange: (page) =>
+                  AppUtil().changeStatusBarColor(pages[page].bgColor),
               radius: screenWidth * 0.1,
               nextButtonBuilder: (context) => Padding(
                 padding: const EdgeInsets.only(left: 3), // visual center

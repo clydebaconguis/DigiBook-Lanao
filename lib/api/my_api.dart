@@ -6,26 +6,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CallApi {
   // DLCES RESOURCES
   final String _ckIpv4 = 'https://lms.smsaccess.net/';
+  // final String _cover = 'https://sjhs.cklms.ph/';
 
   //DLCES DOMAINS
-  // final String _domain = 'https://hsa.cklms.ph/api/'; - done
-  // final String _domain = 'https://ica.cklms.ph/api/'; - done
-  // final String _domain = 'https://saa.cklms.ph/api/'; - done
-  // final String _domain = 'https://sja.cklms.ph/api/'; - done
-  final String _domain = 'https://sjid.cklms.ph/api/';
-  // final String _domain = 'https://sjhs.cklms.ph/api/'; - done
-  // final String _domain = 'https://sla.cklms.ph/api/'; - done
-  // final String _domain = 'https://saa-bacarra.cklms.ph/api/'; - done
-  // final String _domain = 'https://sags.cklms.ph/api/';  - done
-  // final String _domain = 'https://sjohs.cklms.ph/api/'; - done
-  // final String _domain = 'https://sna.cklms.ph/api/'; - done
-  // final String _domain = 'https://sra.cklms.ph/api/'; - done
-  // final String _domain = 'https://sjec.cklms.ph/api/'; - done
-  // final String _domain = 'https://sgs.cklms.ph/api/'; - done
-  // final String _domain = 'https://ses.cklms.ph/api/'; - done
+  // final String _domain = 'https://hsa.cklms.ph/api/'; resubmit
+  // final String _domain = 'https://ica.cklms.ph/api/'; resubmit
+  // final String _domain = 'https://saa.cklms.ph/api/'; resubmit
+  // final String _domain = 'https://sja.cklms.ph/api/';
+  // final String _domain = 'https://sjid.cklms.ph/api/';
+  // final String _domain = 'https://sjhs.cklms.ph/api/';
+  // final String _domain = 'https://sla.cklms.ph/api/';
+  // final String _domain = 'https://saa-bacarra.cklms.ph/api/';
+  // final String _domain = 'https://sags.cklms.ph/api/';
+  // final String _domain = 'https://sjohs.cklms.ph/api/';
+  // final String _domain = 'https://sna.cklms.ph/api/';
+  // final String _domain = 'https://sra.cklms.ph/api/';
+  // final String _domain = 'https://sjec.cklms.ph/api/';
+  // final String _domain = 'https://sgs.cklms.ph/api/';
+  // final String _domain = 'https://ses.cklms.ph/api/';
+
+  // SHJMS
+  // final String _domain = 'https://shjms.cklms.ph/api/'; resubmit
 
   // LDCU DOMAIN
-  // final String _ckIpv4 = 'https://app.cklms.ph/'; - done
+  // final String _ckIpv4 = 'https://app.cklms.ph/'; - resubmit
   // final String _domain = 'https://app.cklms.ph/api/';
 
   getHost() {
@@ -34,9 +38,13 @@ class CallApi {
     return _ckIpv4;
   }
 
-  getDomain() {
-    return _domain;
-  }
+  // getCover() {
+  //   return _cover;
+  // }
+
+  // getDomain() {
+  //   return _domain;
+  // }
 
   // postData(data, apiUrl) async {
   // var fullUrl = _ckIpv4 + apiUrl;
@@ -58,11 +66,11 @@ class CallApi {
   //   );
   // }
 
-  login(data, apiUrl) async {
+  login(data, apiUrl, schoolDomain) async {
     // var token = await getToken();
     // var fullUrl =
     //     '$_domain$apiUrl?email=${data['email']}&password=${data['password']}';
-    var fullUrl = '$_domain$apiUrl';
+    var fullUrl = '$schoolDomain$apiUrl';
     return await http.post(Uri.parse(fullUrl), body: data);
   }
 
@@ -82,10 +90,10 @@ class CallApi {
     return '?token=$token';
   }
 
-  getPublicData(apiUrl) async {
+  getPublicData(apiUrl, mydomain) async {
     // var domain = await _loadSavedDomainName();
     // var fullUrl = '$domain/api/$apiUrl';
-    var fullUrl = '$_domain$apiUrl';
+    var fullUrl = '$mydomain$apiUrl';
     return await http.get(Uri.parse(fullUrl));
   }
 }

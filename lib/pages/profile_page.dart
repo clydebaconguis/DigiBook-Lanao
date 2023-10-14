@@ -41,10 +41,13 @@ class _ProfilePageState extends State<ProfilePage> {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey.shade50,
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: Colors.white,
             leading: IconButton(
+              color: Colors.black,
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
@@ -60,8 +63,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Text(
                     "Profile",
                     style: GoogleFonts.orbitron(
-                      textStyle: TextStyle(
-                        color: Colors.yellow.shade800,
+                      textStyle: const TextStyle(
+                        color: Colors.black87,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -73,18 +76,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    theme,
-                    theme,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-            ),
+            // flexibleSpace: Container(
+            //   decoration: BoxDecoration(
+            //     gradient: LinearGradient(
+            //       colors: [
+            //         theme,
+            //         theme,
+            //       ],
+            //       begin: Alignment.topLeft,
+            //       end: Alignment.bottomRight,
+            //     ),
+            //   ),
+            // ),
           ),
           body: SingleChildScrollView(
             child: Center(
@@ -130,10 +133,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     const CircleAvatar(
                                       backgroundColor:
                                           Color.fromARGB(255, 140, 228, 243),
-                                      radius: 60.0,
-                                      backgroundImage: AssetImage(
-                                        'img/anonymous.jpg', // Replace with the actual profile picture URL
-                                      ),
+                                      radius: 50.0,
+                                      child: Icon(Icons.person, size: 30),
                                     ),
                                     const SizedBox(height: 22),
                                     Text(

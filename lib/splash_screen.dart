@@ -4,11 +4,9 @@ import 'package:ict_ebook_hsa/app_util.dart';
 import 'package:ict_ebook_hsa/pages/nav_main.dart';
 import 'package:ict_ebook_hsa/signup_login/sign_in.dart';
 import 'package:ict_ebook_hsa/welcome/welcome_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,19 +72,8 @@ class _SplashState extends State<Splash> {
   void initState() {
     configLoading();
     checkExpiration();
-    changeStatusBarColor(Colors.white);
+    AppUtil().changeStatusBarColor(Colors.white);
     super.initState();
-  }
-
-  changeStatusBarColor(Color color) async {
-    if (!kIsWeb) {
-      await FlutterStatusbarcolor.setStatusBarColor(color);
-      if (useWhiteForeground(color)) {
-        FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-      } else {
-        FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-      }
-    }
   }
 
   void configLoading() {
@@ -118,14 +105,14 @@ class _SplashState extends State<Splash> {
         splashIconSize: 100,
         duration: 2000,
         centered: true,
-        splash: 'img/mylogo.png',
+        splash: 'img/CK_logo.png',
         nextScreen: expired
-            ? const SignIn()
+            ? const SignIn(0)
             : loggedIn
                 ? const MyNav()
                 : const Welcome(),
-        splashTransition: SplashTransition.sizeTransition,
-        pageTransitionType: PageTransitionType.fade,
+        splashTransition: SplashTransition.fadeTransition,
+        pageTransitionType: PageTransitionType.topToBottom,
         backgroundColor: Colors.white,
       ),
       builder: EasyLoading.init(),

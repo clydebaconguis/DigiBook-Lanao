@@ -177,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  custom_searchable_dropdown:
+    dependency: "direct main"
+    description:
+      name: custom_searchable_dropdown
+      sha256: c2676b1ee55f0b71a7cd890ae473cf97651f018b2695b3bf57c8c28a14e2fa95
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   dbus:
     dependency: transitive
     description:
@@ -504,6 +512,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  laravel_echo:
+    dependency: "direct main"
+    description:
+      name: laravel_echo
+      sha256: aec1c8a989f8718ffbb9864e746eed2181638e156d4e22724230a5be9cdf43ab
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0-beta.1"
   lints:
     dependency: transitive
     description:
@@ -736,6 +752,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
+  pusher_client_fixed:
+    dependency: "direct main"
+    description:
+      name: pusher_client_fixed
+      sha256: "7fc42198dbfbbe3eb9dfb923df4f03907bca9e80f17c283502d0b87997fff23c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   rxdart:
     dependency: transitive
     description:
@@ -1101,6 +1125,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.4-beta"
+  web_socket_channel:
+    dependency: "direct main"
+    description:
+      name: web_socket_channel
+      sha256: d88238e5eac9a42bb43ca4e721edba3c08c6354d4a53063afaa568516217621b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
   win32:
     dependency: transitive
     description:
